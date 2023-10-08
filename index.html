@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Octopus Arts</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="description" content="Eurorack modules for audio and video" />
+  <link href="https://cdn.jsdelivr.net/npm/modern-normalize@v2.0.0/modern-normalize.min.css" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@200&family=Raleway:wght@100;400&display=swap" rel="stylesheet">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="manifest" href="/site.webmanifest">
+  <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#000000">
+  <meta name="msapplication-TileColor" content="#da532c">
+  <meta name="theme-color" content="#ffffff">
+  <meta property="og:title" content="Octopus Arts" />
+  <meta property="og:description" content="Eurorack modules for audio and video" />
+  <meta property="og:image" content="android-chrome-512x512.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <style>
+    body {
+      padding: 4rem;
+      background: black;
+      color: white;
+      font-family: Montserrat, Raleway, Helvetica, "Trebuchet MS", Verdana, sans-serif;
+      transition-property: background, color;
+      transition-duration: 3500ms;
+    }
+    h1 {
+      margin: 0;
+      padding: 0 0 1rem;
+      font-size: 3rem;
+    }
+    .content {
+      padding-top: 5rem;
+    }
+    p {
+      font-size: 2rem;
+      line-height: 2.6rem;
+    }
+    span.newname {
+      font-size: 3rem;
+      font-weight: bold;
+    }
+    small {
+      font-size: 1rem;
+    }
+    a {
+      color: inherit;
+    }
+    @media (max-width: 25rem) {
+      body {
+        padding: 2rem;
+      }
+      .content {
+        padding-top: 3rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <h1>Octopus Arts</h1>
+  <main>
+    <p class="announcement">...is now <span class="newname">OCTOVOLT</span></p>
+    <section class="content">
+      <p>Octovolt will be hosted at <a href="https://octovolt.xyz">octovolt.xyz</a> in October of 2023.</p>
+    </section>
+    <section>
+      <p><a href="https://github.com/octopus-arts">GitHub</a></p>
+    </section>
+  </main>
+  <footer>
+    <small>© <script>document.write(new Date().getFullYear())</script> Octovolt. All Rights Reserved.</small>
+  </footer>
+</body>
+<script>
+  (() => {
+    const timing = 3500; // this must match the timing in the css
+    const colorDiffThreshold = 140;
+    const grayThreshold = 30;
+    const bgAverageBrightnessThreshold = 70;
+
+    function randomSevenBitValue(max) {
+      return Math.floor(Math.random() * max);
+    }
+
+    function updateStyles() {
+      const bgColor = [0,0,0].map((_color) => { return randomSevenBitValue(90); });
+
+      const bgAverage = bgColor.reduce((a, b) => a + b) / 3;
+      
+      if (bgAverage > bgAverageBrightnessThreshold) {
+        // background is too bright, trying again
+        updateStyles();
+        return; 
+      }
+
+      if (
+        Math.abs(bgColor[0] - bgColor[1]) < grayThreshold &&
+        Math.abs(bgColor[1] - bgColor[2]) < grayThreshold &&
+        Math.abs(bgColor[2] - bgColor[0]) < grayThreshold
+      ) {
+        // background is too gray, trying again
+        updateStyles();
+        return;
+      }
+
+      const fontColor = [0,0,0].map((_color) => { return randomSevenBitValue(127) + 128; });
+
+      if (
+        fontColor[0] - bgColor[0] < colorDiffThreshold &&
+        fontColor[1] - bgColor[1] < colorDiffThreshold &&
+        fontColor[2] - bgColor[2] < colorDiffThreshold
+      ) {
+        // colors are too close, trying again
+        updateStyles();
+        return;
+      }
+
+      document.body.style = 
+        `background: rgb(${bgColor[0]},${bgColor[1]},${bgColor[2]}); 
+         color: rgb(${fontColor[0]},${fontColor[1]},${fontColor[2]});`;
+
+      setTimeout(updateStyles, timing);
+    }
+    updateStyles();
+    console.log(`
+ Welcome to
+ ____ ____ ___ ____ _  _ ____ _    ___
+ [__] |___  |  [__]  \\/  [__] |___  | 
+    `);
+  })();
+</script>
+</html>
